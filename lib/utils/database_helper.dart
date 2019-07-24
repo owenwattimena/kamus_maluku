@@ -68,6 +68,8 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> getAllDatas() async {
     Database db = await this.database;
     var result = await db.query(tbKamus);
+    /*,
+        where: "$colKata != ?", whereArgs: [''], orderBy: '$colKata');*/
     return result;
   }
 
@@ -83,7 +85,7 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> getSearchDatas(String search) async {
     Database db = await this.database;
     var result = await db.rawQuery(
-        "SELECT * FROM $tbKamus WHERE $colKata LIKE '%$search%' OR $colMakna LIKE '%$search%'");
+        "SELECT * FROM $tbKamus WHERE $colKata LIKE '%$search%' OR $colMakna LIKE '%$search%' ORDER BY $colKata ASC");
     return result;
   }
 

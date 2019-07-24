@@ -30,6 +30,14 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.7.2"
+  flutter_linkify: 1.0.3
+  url_launcher: ^4.0.3
+
+flutter_icons:
+  android: "launcher_icon" 
+  ios: true
+  image_path: "assets/icon/icon_kamus_maluku.png"
 
 
 # For information on the generic Dart part of this file, see the
@@ -48,7 +56,7 @@ flutter:
    - assets/database/my_kamus.sqlite
    - assets/images/splash_screen.png
    - assets/images/tampayang_sopi.png
-   - assets/images/sopi_tampayang.svg
+   - assets/images/tifa.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
@@ -75,3 +83,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages
+
+  

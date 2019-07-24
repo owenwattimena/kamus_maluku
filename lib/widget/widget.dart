@@ -23,14 +23,18 @@ class _GetListState extends State<GetList> {
     if (listofKamus.isNotEmpty) {
       return ListView.separated(
         separatorBuilder: (context, i) => Divider(
-              color: Colors.black12,
-              height: 5.0,
-            ),
+          color: Colors.black12,
+          height: 5.0,
+        ),
         itemCount: this.count,
         itemBuilder: (BuildContext context, int i) {
           return ListTile(
-            title: Text(this.listofKamus[i].kata ?? ''),
-            subtitle: Text(this.listofKamus[i].makna ?? ''),
+            title: Text(
+              this.listofKamus[i].kata ?? '',
+              style: TextStyle(fontSize: 18),
+            ),
+            subtitle: Text(this.listofKamus[i].makna ?? '',
+                style: TextStyle(fontSize: 15)),
             trailing: GestureDetector(
               child: (this.listofKamus[i].penanda == 0)
                   ? Icon(
@@ -49,13 +53,44 @@ class _GetListState extends State<GetList> {
         },
       );
     } else {
-      return Center(
-        child: Text(
-          'Belum ada penanda...',
-          style: TextStyle(color: Colors.red[500]),
-        ),
-      );
+      // return Center(
+      //   child: Text(
+      //     'Belum ada penanda...',
+      //     style: TextStyle(color: Colors.red[500]),
+      //   ),
+      // );
+      return notResult();
     }
+  }
+
+  Center notResult() {
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Image(
+            image: AssetImage("assets/images/tifa.png"),
+            // fit: BoxFit.contain,
+            width: MediaQuery.of(context).size.width * 0.5,
+            height: MediaQuery.of(context).size.width * 0.5,
+          ),
+          Padding(padding: EdgeInsets.only(top: 10)),
+          Text(
+            'Belum ada yang di tandai',
+            style: TextStyle(
+                color: Colors.black87,
+                fontSize: 18,
+                fontWeight: FontWeight.w500),
+          ),
+          Padding(padding: EdgeInsets.only(top: 5)),
+          Text(
+            'Tandai beberapa kata lalu kambali lagi ke sini',
+            style: TextStyle(color: Colors.black54, fontSize: 14),
+          ),
+        ],
+      ),
+    );
   }
 
   void updatePenanda(int i) {

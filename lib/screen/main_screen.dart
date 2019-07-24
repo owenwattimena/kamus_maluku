@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kamus_maluku/utils/database_helper.dart';
 import 'package:kamus_maluku/models/kamus.dart';
-// import 'package:kamus_maluku/widget/widget.dart';
 import 'package:kamus_maluku/screen/bookmark_screen.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -14,11 +15,11 @@ class _MainScreenState extends State<MainScreen> {
   TextEditingController mSearch = new TextEditingController();
 
   DatabaseHelper databaseHelper = new DatabaseHelper();
-  // Functions _functions = new Functions();
 
   List<Kamus> listofKamus;
   int count = 0;
   var snackBar;
+  String url = 'http://owenwattimena.github.io';
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,7 @@ class _MainScreenState extends State<MainScreen> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
         title: Text('Kamus Maluku'),
@@ -126,8 +128,10 @@ class _MainScreenState extends State<MainScreen> {
       itemCount: this.count,
       itemBuilder: (BuildContext context, int i) {
         return ListTile(
-          title: Text(this.listofKamus[i].kata ?? ''),
-          subtitle: Text(this.listofKamus[i].makna ?? ''),
+          title: Text(this.listofKamus[i].kata ?? '',
+              style: TextStyle(fontSize: 18)),
+          subtitle: Text(this.listofKamus[i].makna ?? '',
+              style: TextStyle(fontSize: 15)),
           trailing: GestureDetector(
             child: (this.listofKamus[i].penanda == 0)
                 ? Icon(
@@ -150,14 +154,25 @@ class _MainScreenState extends State<MainScreen> {
   Column notResult() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
+      // mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        // Image.asset('assets/images/tampayang_sopi.png', width: 200),
+        Image(
+          image: AssetImage("assets/images/tampayang_sopi.png"),
+          // fit: BoxFit.contain,
+          width: MediaQuery.of(context).size.width * 0.5,
+          height: MediaQuery.of(context).size.width * 0.5,
+        ),
         Padding(padding: EdgeInsets.only(top: 10)),
         Text(
-          '\'' + mSearch.text + '\' tidak ditemukan!',
-          style: TextStyle(color: Colors.grey, fontSize: 15),
-        )
+          'Yah, \'' + mSearch.text + '\' tidak ditemukan',
+          style: TextStyle(
+              color: Colors.black87, fontSize: 18, fontWeight: FontWeight.w500),
+        ),
+        Padding(padding: EdgeInsets.only(top: 5)),
+        Text(
+          'Coba cari kata yang lain, misalnya \'Beta\'',
+          style: TextStyle(color: Colors.black54, fontSize: 14),
+        ),
       ],
     );
   }
@@ -173,8 +188,30 @@ class _MainScreenState extends State<MainScreen> {
               child: ListBody(
                 children: <Widget>[
                   Text(
-                    'Developer by Wentox Wtt',
+                    'Kamus maluku adalah aplikasi yang dibuat untuk membantu masyarakat luas untuk mamahami bahasa Maluku. \nTerdapat 623 kata yang di muat dalam aplikasi ini.',
                     style: TextStyle(fontSize: 12.0),
+                    textAlign: TextAlign.justify,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10),
+                  ),
+                  Text(
+                    'Developer : Owen Wattimena\nDesign Advisor : Charla Sopacua',
+                    style:
+                        TextStyle(fontSize: 13.0, fontWeight: FontWeight.bold),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 5),
+                  ),
+                  Linkify(
+                    text: '$url',
+                    onOpen: (url) async {
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        throw 'can not launch $url';
+                      }
+                    },
                   ),
                 ],
               ),
